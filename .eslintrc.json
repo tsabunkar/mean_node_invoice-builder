@@ -1,0 +1,44 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "ecmaFeatures": {
+            "templateStrings": true,
+            "arrowFunctions": true,
+            "destructuring": true,
+            "spread": true
+        },
+        "sourceType": "module"
+    },
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-trailing-spaces": "error",
+        "no-alert": "error",
+        "no-console": "warn",
+        "no-irregular-whitespace": "error",
+        "no-constant-condition": "error",
+        "eqeqeq": "error",
+        "callback-return": "error",
+        "handle-callback-err": "error",
+        "camelcase": "warn",
+        "no-var": "warn",
+        "prefer-arrow-callback": "warn",
+        "prefer-const": "warn",
+        "no-await-in-loop": "error"
+    }
+}

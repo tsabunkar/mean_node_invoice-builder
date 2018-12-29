@@ -1,0 +1,35 @@
+{
+  "name": "mean_node_invoice-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start http://localhost:3000/api-docs/ && nodemon server/app.js --exec babel-node --presets env",
+    "build": "npm run clean && babel server -d dist --source-maps",
+    "build-without-source-maps": "npm run clean && babel server --out-dir dist",
+    "build-copy-all": "npm run clean && babel server -d dist --source-maps --copy-files",
+    "build-copy-all-inline": "npm run clean && babel server -d dist --source-maps inline --copy-files",
+    "build-copy-all-without-source-maps": "npm run clean && babel server -d dist --copy-files",
+    "serve-prod": "nodemon dist/app.js",
+    "lint": "eslint server",
+    "lint-all": "eslint **/*.js ",
+    "clean": "rm -rf dist && mkdir dist",
+    "debug-dist": "nodemon --inspect dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "joi": "^14.3.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.0",
+    "morgan": "^1.9.1",
+    "swagger-ui-express": "^4.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}

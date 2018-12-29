@@ -1,0 +1,394 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "2.0.0",
+        "title": "Invoice API Documentation",
+        "description": "A sample API documentation for invoice api developed in node and documented in the swagger-2.0 specification",
+        "contact": {
+            "name": "Sabunkar Tejas Shailesh",
+            "url": "https://github.com/tsabunkar/mean_node_invoice-builder",
+            "email": "tsabunkar@gmail.com"
+        },
+        "license": {
+            "name": "MIT Liscense",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Invoices",
+            "description": "API's for Invoice Project"
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/invoice": {
+            "get": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Get All Invoices",
+                "description": "GET ALL",
+                "responses": {
+                    "200": {
+                        "description": "Success! fetched all invoices",
+                        "schema": {
+                            "uniqueItems": false,
+                            "type": "array",
+                            "$ref": "#/definitions/InvoiceModel"
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "_id": "5c236daf70122e67708fc3e0",
+                                    "item": "walmart32",
+                                    "quantity": 105,
+                                    "date": "2018-05-21T00:00:00.000Z",
+                                    "dueDate": "2018-05-28T00:00:00.000Z",
+                                    "rate": 2,
+                                    "tax": 1,
+                                    "__v": 0
+                                },
+                                {
+                                    "_id": "5c236dc270122e67708fc3e1",
+                                    "item": "amazon",
+                                    "quantity": 200,
+                                    "date": "2018-05-21T00:00:00.000Z",
+                                    "dueDate": "2018-05-28T00:00:00.000Z",
+                                    "rate": 2,
+                                    "tax": 1,
+                                    "__v": 0
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Oops! Can't get invoices"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Create a Invoice",
+                "description": "Create new Invoice",
+                "consumes": [
+                    "application/json",
+                    "application/json-patch+json",
+                    "text/json",
+                    "application/*+json",
+                    "application/xml",
+                    "text/xml",
+                    "application/*+xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "invoices",
+                        "description": "Create a new Invice",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateInvoiceModel"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "new invoice is created",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/InvoiceModel"
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "_id": "5c236daf70122e67708fc3e0",
+                                "item": "walmart32",
+                                "quantity": 105,
+                                "date": "2018-05-21T00:00:00.000Z",
+                                "dueDate": "2018-05-28T00:00:00.000Z",
+                                "rate": 2,
+                                "tax": 1,
+                                "__v": 0
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invoice has missing values"
+                    },
+                    "422": {
+                        "description": "Invoice has invalid values"
+                    },
+                    "500": {
+                        "description": "Oops! Can't create Invoice"
+                    }
+                }
+            }
+        },
+        "/invoice/{id}": {
+            "get": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Get a Invoice By ID",
+                "description": "find single invoice by passing Id",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Invoice ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucessfully fetched Invoice",
+                        "schema": {
+                            "$ref": "#/definitions/InvoiceModel"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "_id": "5c236daf70122e67708fc3e0",
+                                "item": "walmart2",
+                                "quantity": 200,
+                                "date": "2018-05-21T00:00:00.000Z",
+                                "dueDate": "2018-05-28T00:00:00.000Z",
+                                "rate": 2,
+                                "tax": 1,
+                                "__v": 0
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Could not find invoice"
+                    },
+                    "500": {
+                        "description": "Oops! Can't get invoice"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Get a Invoice By ID",
+                "description": "Delete a invoice by passing Id",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Invoice to be deleted",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucessfully deleted Invoice"
+                    },
+                    "404": {
+                        "description": "Could not find invoice"
+                    },
+                    "500": {
+                        "description": "Oops! Can't delete invoice"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Update a Invoice",
+                "description": "Update new Invoice",
+                "consumes": [
+                    "application/json",
+                    "application/json-patch+json",
+                    "text/json",
+                    "application/*+json",
+                    "application/xml",
+                    "text/xml",
+                    "application/*+xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Invoice to be updated",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "invoices",
+                        "in": "body",
+                        "description": "Update an existing Invoice",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateInvoiceModel"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "successfully update invoice!!",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/InvoiceModel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invoice is missing values"
+                    },
+                    "404": {
+                        "description": "Could not find Invoice"
+                    },
+                    "422": {
+                        "description": "Invoice has invalid values"
+                    },
+                    "500": {
+                        "description": "Oops! Can't update Invoice"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "InvoiceModel": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "item": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "rate": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "tax": {
+                    "type": "number",
+                    "format": "float"
+                }
+            }
+        },
+        "CreateInvoiceModel": {
+            "required": [
+                "item",
+                "quantity",
+                "date",
+                "dueDate"
+            ],
+            "type": "object",
+            "properties": {
+                "item": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "rate": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "tax": {
+                    "type": "number",
+                    "format": "float"
+                }
+            },
+            "example": {
+                "item": "Amazon",
+                "quantity": 1,
+                "date": "2018-12-27",
+                "dueDate": "2018-12-27",
+                "rate": 12.0,
+                "tax": 13.2
+            }
+        },
+        "UpdateInvoiceModel": {
+            "type": "object",
+            "properties": {
+                "item": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "rate": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "tax": {
+                    "type": "number",
+                    "format": "float"
+                }
+            },
+            "example": {
+                "item": "Amazon",
+                "quantity": 1,
+                "date": "2018-12-27",
+                "dueDate": "2018-12-27",
+                "rate": 12.0,
+                "tax": 13.2
+            }
+        }
+    }
+}
