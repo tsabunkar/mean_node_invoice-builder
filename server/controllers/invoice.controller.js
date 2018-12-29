@@ -16,26 +16,48 @@ const findAllInvoices = async (req, resp, next) => { // eslint-disable-line
         // !Adding pagination feature
 
         let {
-            pageSize, //setting default pageSize
-            currentPage //setting default currentPage value
+            pageSize, // limit of records to show in current page
+            currentPage, // current-page or pageno user is in
+            filterItem, // filtering document based on generic value entered (Only for Item field/property)
+            sortFiled, // filed on which we want to sort for
+            sortDirection // sort direction values can be -> asc, desc, ascending, descending, 1, or -1
         } = req.query;
+
+
+        /*  let pageSize = 10;
+         let currentPage = 1;
+         const filterItem = 'a';
+         let sortFiled = 'item';
+         const sortDirection = 'descending'; */
 
         pageSize = +pageSize;
         currentPage = +currentPage;
 
-        if (!pageSize || !currentPage) { // pageSize && currentPage are undefined or null
+        if (!pageSize || !currentPage) { // pageSize && currentPage are undefined or null (bcoz-pageSize and currentPage r required field)
             resp.status(500).json({
-                message: 'PageSize and CurrentPage value or not defined',
+                message: 'PageSize,CurrentPage,filterItem,sortFiled,sortDirection value are not defined',
                 data: '',
                 status: 500
             });
             return;
         }
 
-        const invoices = await InvoiceModel.find() // find all documents
-            .skip(pageSize * (currentPage - 1)) // we will not retrieve all records, but will skip first 'n' records
-            .limit(pageSize); // will limit/restrict the number of records to display
+        // !Filter search result
+        const query = {};
+        if (filterItem) {
+            // query.item = filterItem; // filter documents on the complete item passed from frontend
+            query.item = {
+                $regex: filterItem //  $regex: -> similar to like operator in sql db
+            };
+        }
 
+        const invoices = await InvoiceModel.find(query) // find all documents
+            .skip(pageSize * (currentPage - 1)) // we will not retrieve all records, but will skip first 'n' records
+            .limit(pageSize) // will limit/restrict the number of records to display
+            .sort({
+                // 'item': sortDirection
+                [sortFiled]: sortDirection
+            }); // sorting the documents
 
         const numberOfInvoice = await InvoiceModel.countDocuments(); // count the number of records for that model
 

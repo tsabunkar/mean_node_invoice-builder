@@ -16,12 +16,10 @@
     },
     "host": "localhost:3000",
     "basePath": "/api",
-    "tags": [
-        {
-            "name": "Invoices",
-            "description": "API's for Invoice Project"
-        }
-    ],
+    "tags": [{
+        "name": "Invoices",
+        "description": "API's for Invoice Project"
+    }],
     "schemes": [
         "http",
         "https"
@@ -40,20 +38,40 @@
                 ],
                 "summary": "Get All Invoices",
                 "description": "GET ALL",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "pageSize",
-                        "type":"integer",
+                        "type": "integer",
                         "description": "Set limit/pageSize for pagination",
                         "in": "query",
-                        "required": true 
+                        "required": true
                     },
                     {
                         "name": "currentPage",
-                        "type":"integer",
-                        "description": "Set currentPage for pagination",
+                        "type": "integer",
+                        "description": "Set currentPage or page-number for pagination",
                         "in": "query",
-                        "required": true 
+                        "required": true
+                    },
+                    {
+                        "name": "filterItem",
+                        "type": "string",
+                        "description": "filtering document based on generic value entered (Only for Item field)",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "sortFiled",
+                        "type": "string",
+                        "description": "Set field on which we want to sort ex- item,quantity,date,etc",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "sortDirection",
+                        "type": "string",
+                        "description": "Set sort direction ex- asc, desc, ascending, descending, 1, or -1",
+                        "in": "query",
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -65,8 +83,7 @@
                             "$ref": "#/definitions/InvoiceModel"
                         },
                         "examples": {
-                            "application/json": [
-                                {
+                            "application/json": [{
                                     "_id": "5c236daf70122e67708fc3e0",
                                     "item": "walmart32",
                                     "quantity": 105,
@@ -109,17 +126,15 @@
                     "text/xml",
                     "application/*+xml"
                 ],
-                "parameters": [
-                    {
-                        "name": "invoices",
-                        "description": "Create a new Invice",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/CreateInvoiceModel"
-                        }
+                "parameters": [{
+                    "name": "invoices",
+                    "description": "Create a new Invice",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/CreateInvoiceModel"
                     }
-                ],
+                }],
                 "produces": [
                     "application/json"
                 ],
@@ -167,15 +182,13 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Invoice ID",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Invoice ID",
+                    "required": true,
+                    "type": "string"
+                }],
                 "responses": {
                     "200": {
                         "description": "Sucessfully fetched Invoice",
@@ -213,15 +226,13 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Id of the Invoice to be deleted",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id of the Invoice to be deleted",
+                    "required": true,
+                    "type": "string"
+                }],
                 "responses": {
                     "200": {
                         "description": "Sucessfully deleted Invoice"
@@ -249,8 +260,7 @@
                     "text/xml",
                     "application/*+xml"
                 ],
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "id",
                         "in": "path",
                         "description": "Id of the Invoice to be updated",
