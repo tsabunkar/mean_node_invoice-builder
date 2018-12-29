@@ -40,6 +40,22 @@
                 ],
                 "summary": "Get All Invoices",
                 "description": "GET ALL",
+                "parameters": [
+                    {
+                        "name": "pageSize",
+                        "type":"integer",
+                        "description": "Set limit/pageSize for pagination",
+                        "in": "query",
+                        "required": true 
+                    },
+                    {
+                        "name": "currentPage",
+                        "type":"integer",
+                        "description": "Set currentPage for pagination",
+                        "in": "query",
+                        "required": true 
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success! fetched all invoices",

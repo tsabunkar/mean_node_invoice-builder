@@ -9,11 +9,42 @@ const {
 } = require('mongodb');
 
 
+
 const findAllInvoices = async (req, resp, next) => { // eslint-disable-line
     try {
-        const invoices = await InvoiceModel.find();
+        // const invoices = await InvoiceModel.find();
+        // !Adding pagination feature
 
-        resp.status(200).json(invoices);
+        let {
+            pageSize, //setting default pageSize
+            currentPage //setting default currentPage value
+        } = req.query;
+
+        pageSize = +pageSize;
+        currentPage = +currentPage;
+
+        if (!pageSize || !currentPage) { // pageSize && currentPage are undefined or null
+            resp.status(500).json({
+                message: 'PageSize and CurrentPage value or not defined',
+                data: '',
+                status: 500
+            });
+            return;
+        }
+
+        const invoices = await InvoiceModel.find() // find all documents
+            .skip(pageSize * (currentPage - 1)) // we will not retrieve all records, but will skip first 'n' records
+            .limit(pageSize); // will limit/restrict the number of records to display
+
+
+        const numberOfInvoice = await InvoiceModel.countDocuments(); // count the number of records for that model
+
+        resp.setHeader('record-count', numberOfInvoice);
+        resp.status(200).json({
+            message: 'fetched all records',
+            data: invoices,
+            status: 200
+        });
 
     } catch (err) {
         resp.status(500).json({
