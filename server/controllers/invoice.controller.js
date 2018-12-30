@@ -57,7 +57,30 @@ const findAllInvoices = async (req, resp, next) => { // eslint-disable-line
             .sort({
                 // 'item': sortDirection
                 [sortFiled]: sortDirection
-            }); // sorting the documents
+            }) // sorting the documents
+            .populate('client');
+        // !will populate the compolete client property document in this invoice document
+        // !for ex ->
+        // {
+        //     "_id": "5c287d94a5e0794858ac4e85",
+        //     "item": "Amazon",
+        //     "quantity": 1,
+        //     "date": "2018-12-27T00:00:00.000Z",
+        //     "dueDate": "2018-12-27T00:00:00.000Z",
+        //     "rate": 12,
+        //     "tax": 13.2,
+        //     "client": { //! completed client document is populated here
+        //       "_id": "5c287d89a5e0794858ac4e84",
+        //       "firstName": "Tejas2",
+        //       "lastName": "Sabunk2",
+        //       "gender": true,
+        //       "email": "tsabud@gmail.com",
+        //       "__v": 0
+        //     },
+        //     "__v": 0
+        //   }
+
+
 
         const numberOfInvoice = await InvoiceModel.countDocuments(); // count the number of records for that model
 

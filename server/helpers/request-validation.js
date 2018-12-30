@@ -10,15 +10,22 @@ const joiValidationForCreateInvoice = (req) => {
         date: Joi.date().required(),
         dueDate: Joi.date().required(),
         rate: Joi.number().required(),
-        tax: Joi.number().optional()
+        tax: Joi.number().optional(),
+        client: Joi.string().required()
     });
 
     // !JOI is mainly used to validate our schema
     // !Below JOi is validation our Idealschema with the request body send by frontend (instead we
     // !writing each validation logic manually)
-    const { error, value } = Joi.validate(req.body, idealSchemaForInvoiceModel);
+    const {
+        error,
+        value
+    } = Joi.validate(req.body, idealSchemaForInvoiceModel);
 
-    return { error, value };
+    return {
+        error,
+        value
+    };
 };
 
 
@@ -30,18 +37,68 @@ const joiValidationForUpdateInvoice = (req) => {
         date: Joi.date().optional(),
         dueDate: Joi.date().optional(),
         rate: Joi.number().optional(),
-        tax: Joi.number().optional()
+        tax: Joi.number().optional(),
+        client: Joi.string().optional()
     });
 
-    const { error, value } = Joi.validate(req.body, idealSchemaForInvoiceModel);
+    const {
+        error,
+        value
+    } = Joi.validate(req.body, idealSchemaForInvoiceModel);
 
-    return { error, value };
+    return {
+        error,
+        value
+    };
 };
 
+
+const joiValidationForCreateClient = (req) => {
+
+    const idealSchemaForClientModel = Joi.object().keys({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        gender: Joi.boolean().optional(),
+        email: Joi.string().email().required()
+    });
+
+    const {
+        error,
+        value
+    } = Joi.validate(req.body, idealSchemaForClientModel);
+
+    return {
+        error,
+        value
+    };
+};
+
+
+const joiValidationForUpdateClient = (req) => {
+
+    const idealSchemaForClientModel = Joi.object().keys({
+        firstName: Joi.string().optional(),
+        lastName: Joi.string().optional(),
+        gender: Joi.boolean().required(),
+        email: Joi.string().email().optional()
+    });
+
+    const {
+        error,
+        value
+    } = Joi.validate(req.body, idealSchemaForClientModel);
+
+    return {
+        error,
+        value
+    };
+};
 
 
 
 module.exports = {
     joiValidationForCreateInvoice,
-    joiValidationForUpdateInvoice
+    joiValidationForUpdateInvoice,
+    joiValidationForCreateClient,
+    joiValidationForUpdateClient
 };

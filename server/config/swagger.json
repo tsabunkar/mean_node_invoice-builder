@@ -17,9 +17,14 @@
     "host": "localhost:3000",
     "basePath": "/api",
     "tags": [{
-        "name": "Invoices",
-        "description": "API's for Invoice Project"
-    }],
+            "name": "Invoices",
+            "description": "API's for Invoice"
+        },
+        {
+            "name": "Clients",
+            "description": "API's for Client"
+        }
+    ],
     "schemes": [
         "http",
         "https"
@@ -284,8 +289,18 @@
                     "204": {
                         "description": "successfully update invoice!!",
                         "schema": {
-                            "items": {
-                                "$ref": "#/definitions/InvoiceModel"
+                            "$ref": "#/definitions/InvoiceModel"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "_id": "5c236daf70122e67708fc3e0",
+                                "item": "walmart2",
+                                "quantity": 200,
+                                "date": "2018-05-21T00:00:00.000Z",
+                                "dueDate": "2018-05-28T00:00:00.000Z",
+                                "rate": 2,
+                                "tax": 1,
+                                "__v": 0
                             }
                         }
                     },
@@ -300,6 +315,243 @@
                     },
                     "500": {
                         "description": "Oops! Can't update Invoice"
+                    }
+                }
+            }
+        },
+        "/client": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Get All Clients",
+                "description": "GET ALL",
+                "responses": {
+                    "200": {
+                        "description": "Success! fetched all clients",
+                        "schema": {
+                            "uniqueItems": false,
+                            "type": "array",
+                            "$ref": "#/definitions/ClientModel"
+                        },
+                        "examples": {
+                            "application/json": [{
+                                    "_id": "5c287d89a5e0794858ac4e84",
+                                    "firstName": "Tejas2",
+                                    "lastName": "Sabunk2",
+                                    "gender": true,
+                                    "email": "tsabu2@gmail.com",
+                                    "__v": 0
+                                },
+                                {
+                                    "_id": "5c287d89a5e0794859ac4e84",
+                                    "firstName": "Tejas1",
+                                    "lastName": "Sabunk1",
+                                    "gender": true,
+                                    "email": "tsabu1@gmail.com",
+                                    "__v": 0
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Oops! Can't get clients"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Create a Client",
+                "description": "Create new Client",
+                "consumes": [
+                    "application/json",
+                    "application/json-patch+json",
+                    "text/json",
+                    "application/*+json",
+                    "application/xml",
+                    "text/xml",
+                    "application/*+xml"
+                ],
+                "parameters": [{
+                    "name": "clients",
+                    "description": "Create a new Client",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/CreateClientModel"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "new client is created",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/ClientModel"
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "_id": "5c287d89a5e0794858ac4e84",
+                                "firstName": "Tejas",
+                                "lastName": "Sabunkar",
+                                "gender": true,
+                                "email": "tsabukar@gmail.com",
+                                "__v": 0
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Client has missing values"
+                    },
+                    "422": {
+                        "description": "Client has invalid values"
+                    },
+                    "500": {
+                        "description": "Oops! Can't create Client"
+                    }
+                }
+            }
+        },
+        "/client/{id}": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Get a Client By ID",
+                "description": "find single client by passing Id",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Client ID",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Sucessfully fetched Client",
+                        "schema": {
+                            "$ref": "#/definitions/ClientModel"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "_id": "5c287d89a5e0794859ac4e84",
+                                "firstName": "Tejas1",
+                                "lastName": "Sabunk1",
+                                "gender": true,
+                                "email": "tsabu1@gmail.com",
+                                "__v": 0
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Could not find client"
+                    },
+                    "500": {
+                        "description": "Oops! Can't get client"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Get a Client By ID",
+                "description": "Delete a client by passing Id",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id of the Client to be deleted",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Sucessfully deleted Client"
+                    },
+                    "404": {
+                        "description": "Could not find client"
+                    },
+                    "500": {
+                        "description": "Oops! Can't delete client"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Clients"
+                ],
+                "summary": "Update a Client",
+                "description": "Update new Client",
+                "consumes": [
+                    "application/json",
+                    "application/json-patch+json",
+                    "text/json",
+                    "application/*+json",
+                    "application/xml",
+                    "text/xml",
+                    "application/*+xml"
+                ],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Client to be updated",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "clients",
+                        "in": "body",
+                        "description": "Update an existing Client",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateClientModel"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "successfully update client!!",
+                        "schema": {
+                            "$ref": "#/definitions/ClientModel"
+                        },
+                        "examples": {
+                            "application/json": {
+                                "_id": "5c287d89a5e0794859ac4e84",
+                                "firstName": "Tejas1",
+                                "lastName": "Sabunk1",
+                                "gender": true,
+                                "email": "tsabu1@gmail.com",
+                                "__v": 0
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Client is missing values"
+                    },
+                    "404": {
+                        "description": "Could not find Client"
+                    },
+                    "422": {
+                        "description": "Client has invalid values"
+                    },
+                    "500": {
+                        "description": "Oops! Can't update Client"
                     }
                 }
             }
@@ -335,6 +587,9 @@
                 "tax": {
                     "type": "number",
                     "format": "float"
+                },
+                "client": {
+                    "type": "string"
                 }
             }
         },
@@ -343,7 +598,8 @@
                 "item",
                 "quantity",
                 "date",
-                "dueDate"
+                "dueDate",
+                "client"
             ],
             "type": "object",
             "properties": {
@@ -369,6 +625,9 @@
                 "tax": {
                     "type": "number",
                     "format": "float"
+                },
+                "client": {
+                    "type": "string"
                 }
             },
             "example": {
@@ -377,7 +636,8 @@
                 "date": "2018-12-27",
                 "dueDate": "2018-12-27",
                 "rate": 12.0,
-                "tax": 13.2
+                "tax": 13.2,
+                "client": "5c287d89a5e0794858ac4e84"
             }
         },
         "UpdateInvoiceModel": {
@@ -405,6 +665,9 @@
                 "tax": {
                     "type": "number",
                     "format": "float"
+                },
+                "client": {
+                    "type": "string"
                 }
             },
             "example": {
@@ -413,7 +676,81 @@
                 "date": "2018-12-27",
                 "dueDate": "2018-12-27",
                 "rate": 12.0,
-                "tax": 13.2
+                "tax": 13.2,
+                "client": "5c287d89a5e0794858ac4e84"
+            }
+        },
+        "ClientModel": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "boolean"
+                },
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "CreateClientModel": {
+            "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "gender"
+            ],
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "boolean"
+                },
+                "email": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "firstName": "Tejas",
+                "lastName": "Sabunkar",
+                "gender": true,
+                "email": "tsabukar@gmail.com"
+            }
+        },
+        "UpdateClientModel": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "boolean"
+                },
+                "email": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "firstName": "Tejas",
+                "lastName": "Sabunkar",
+                "gender": true,
+                "email": "tsabukar@gmail.com"
             }
         }
     }

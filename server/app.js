@@ -9,6 +9,10 @@ import {
     invoiceRoute
 } from './routes/invoice.routes';
 
+import {
+    clientRoutes
+} from './routes/client.routes';
+
 
 
 const app = express();
@@ -48,7 +52,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 
 
 // !filter routes with '/api/invoice' -> redirect to invoiceRoute
+// http://localhost:3000/api/invoice
 app.use('/api/invoice', invoiceRoute);
+
+// http://localhost:3000/api/client
+app.use('/api/client', clientRoutes);
 
 
 

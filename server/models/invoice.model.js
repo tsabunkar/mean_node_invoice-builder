@@ -1,6 +1,7 @@
 import {
     mongoose
 } from '../db/mongoose_config';
+import { Schema } from 'mongoose';
 
 
 const invoiceSchema = mongoose.Schema({
@@ -26,6 +27,11 @@ const invoiceSchema = mongoose.Schema({
     tax: {
         type: Number
     },
+    client: {
+        ref: 'client_collection',
+        type: Schema.Types.ObjectId,
+        required: true
+    }
 });
 
 const InvoiceModel = mongoose.model('invoice_collection', invoiceSchema);
