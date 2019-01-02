@@ -83,5 +83,5 @@ Note: Joi is mainly used to validate the request body recieved from frontend is 
 fileds/property, has valid data-type, length of the field/property).
 Thus Instead of we validting this code by manually/programtically, we can use JOI
 
-
+  
 --------------------------------------------------------------------------------------------------------
