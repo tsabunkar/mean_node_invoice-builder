@@ -96,9 +96,30 @@ const joiValidationForUpdateClient = (req) => {
 
 
 
+const joiValidationForCreateUser = (req) => {
+
+    const idealSchemaForUserModel = Joi.object().keys({
+        email: Joi.string().required().email(),
+        password: Joi.string().required().regex(/^[a-zA-Z0-9]{3,30}$/)
+    });
+
+    const {
+        error,
+        value
+    } = Joi.validate(req.body, idealSchemaForUserModel);
+
+
+    return {
+        error,
+        value
+    };
+};
+
+
 module.exports = {
     joiValidationForCreateInvoice,
     joiValidationForUpdateInvoice,
     joiValidationForCreateClient,
-    joiValidationForUpdateClient
+    joiValidationForUpdateClient,
+    joiValidationForCreateUser
 };

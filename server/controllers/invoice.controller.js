@@ -17,7 +17,7 @@ const findAllInvoices = async (req, resp, next) => { // eslint-disable-line
 
         let {
             pageSize, // limit of records to show in current page
-            currentPage, // current-page or pageno user is in
+            currentPage, // current-page or pageno end-user is in
             filterItem, // filtering document based on generic value entered (Only for Item field/property)
             sortFiled, // filed on which we want to sort for
             sortDirection // sort direction values can be -> asc, desc, ascending, descending, 1, or -1

@@ -13,6 +13,10 @@ import {
     clientRoutes
 } from './routes/client.routes';
 
+import {
+    userRoute
+} from './routes/user.routes';
+
 
 
 const app = express();
@@ -58,6 +62,9 @@ app.use('/api/invoice', invoiceRoute);
 // http://localhost:3000/api/client
 app.use('/api/client', clientRoutes);
 
+// http://localhost:3000/api/user
+app.use('/api/user', userRoute);
+
 
 
 // !Creating a global level middleware for Error handling
@@ -70,7 +77,7 @@ app.use((req, resp, next) => {
 
 // !Creating a error handling miidleware
 app.use((error, req, resp, next) => { // eslint-disable-line
-    resp.status(error.status || 500); // if user provides the status then use - error.status else 500
+    resp.status(error.status || 500); // if end-user provides the status then use - error.status else 500
     return resp.json({
         message: error.message
     });
