@@ -71,22 +71,11 @@ const loginUser = async (req, resp, next) => { // eslint-disable-line
 
     try {
         const userObject = await UserModel.findByCredentials(value.email, value.password);
-        console.log(userObject);
-        // console.log(UserModel);
 
-        const token = UserModel.generateAuthToken();
-        console.log(token);
-        /*     console.log(userObject._id);
-            console.log(process.env.JWT_SECRET); */
-
-        /*   const jwtToken = jwt.sign({
-              _id: userObject._id
-          }, process.env.JWT_SECRET, {
-              expiresIn: '1h'
-          }); */
+        const token = userObject.generateAuthenticationToken();
 
         resp.status(200).json({
-            message: 'user loggedin succesfully!',
+            message: 'user loggedin successfully!',
             data: userObject,
             token: token,
             status: 200

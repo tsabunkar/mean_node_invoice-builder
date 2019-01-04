@@ -6,7 +6,7 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 
-const UserSchema = mongoose.Schema({
+let UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
@@ -79,12 +79,9 @@ const checkThePassword = async (enteredPassword, userObj) => {
 
 
 
-UserSchema.methods.generateAuthToken = function () {
+UserSchema.methods.generateAuthenticationToken = function () {
     //using normal fun bcoz this keyword doesn't supports ==> 'this'
-    const userObj = this;
-    // const access = 'auth';
-
-    console.log(process.env.JWT_SECRET);
+    let userObj = this;
 
     const jwtToken = jwt.sign({
         _id: userObj._id
@@ -92,12 +89,6 @@ UserSchema.methods.generateAuthToken = function () {
         expiresIn: '1h'
     });
 
-    /*   userObj.tokens.push({
-          access,
-          token: jwtToken
-      }); */
-    console.log('in method');
-    console.log(jwtToken);
     return jwtToken;
 
 };
