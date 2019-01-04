@@ -17,6 +17,16 @@ import {
     userRoute
 } from './routes/user.routes';
 
+import {
+    passportInitialConfiguration
+} from './passportConfig';
+
+import {
+    passportJwtStrategy
+} from './middleware/passport/jwt.strategy';
+
+
+
 
 
 const app = express();
@@ -44,6 +54,17 @@ app.use((req, resp, next) => {
     resp.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS');
     next();
 });
+
+
+
+// !Intializing Passport
+passportInitialConfiguration(app);
+
+// app.use(passport.initialize());
+
+passportJwtStrategy(); // !Registering JWT Stratergy
+
+
 
 
 

@@ -81,7 +81,7 @@ const checkThePassword = async (enteredPassword, userObj) => {
 
 UserSchema.methods.generateAuthenticationToken = function () {
     //using normal fun bcoz this keyword doesn't supports ==> 'this'
-    let userObj = this;
+    const userObj = this;
 
     const jwtToken = jwt.sign({
         _id: userObj._id

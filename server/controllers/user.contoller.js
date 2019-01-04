@@ -4,8 +4,6 @@ import {
     UserModel
 } from '../models/user.model';
 
-import jwt from 'jsonwebtoken';
-
 
 const registerUser = async (req, resp, next) => { // eslint-disable-line
     const {
@@ -91,10 +89,19 @@ const loginUser = async (req, resp, next) => { // eslint-disable-line
 
 };
 
+const test = (req, resp) => {
+
+    resp.status(200).json({
+        data: 'success',
+        status: 200
+    });
+
+};
 
 
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    test
 };
