@@ -17,28 +17,19 @@ router.route('/:id')
     .put(ClientController.updateClientById); // !PUT
  */
 
-router.route('')
-    .post(passport.authenticate('jwt', {
-        session: false
-    }), ClientController.createClient) // !POST
+const authenticateRoute = passport.authenticate('jwt', {
+    session: false
+});
 
-    .get(passport.authenticate('jwt', {
-        session: false
-    }), ClientController.findAllClient); // !GETALL
+router.route('')
+    .post(authenticateRoute, ClientController.createClient) // !POST
+    .get(authenticateRoute, ClientController.findAllClient); // !GETALL
 
 
 router.route('/:id')
-    .get(passport.authenticate('jwt', {
-        session: false
-    }), ClientController.findClientById) // !GET
-
-    .delete(passport.authenticate('jwt', {
-        session: false
-    }), ClientController.deleteClientById) // !DELETE
-
-    .put(passport.authenticate('jwt', {
-        session: false
-    }), ClientController.updateClientById); // !PUT
+    .get(authenticateRoute, ClientController.findClientById) // !GET
+    .delete(authenticateRoute, ClientController.deleteClientById) // !DELETE
+    .put(authenticateRoute, ClientController.updateClientById); // !PUT
 
 
 

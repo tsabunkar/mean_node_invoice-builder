@@ -59,9 +59,6 @@ app.use((req, resp, next) => {
 
 // !Intializing Passport
 passportInitialConfiguration(app);
-
-// app.use(passport.initialize());
-
 passportJwtStrategy(); // !Registering JWT Stratergy
 
 

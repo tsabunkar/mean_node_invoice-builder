@@ -36,32 +36,18 @@ router.route('/:id')
     .put(InvoiceController.updateInvoice); // !PUT */
 
 
+const authenticateRoute = passport.authenticate('jwt', {
+    session: false
+});
 router.route('')
-    .get(passport.authenticate('jwt', {
-        session: false
-    }), InvoiceController.findAllInvoices) // !GET ALL
-
-    .post(passport.authenticate('jwt', {
-        session: false
-    }), InvoiceController.createInvoice) // !POST
-
-    .delete(passport.authenticate('jwt', {
-        session: false
-    }), InvoiceController.deleteAllInvoices); // !DELETE All
+    .get(authenticateRoute, InvoiceController.findAllInvoices) // !GET ALL
+    .post(authenticateRoute, InvoiceController.createInvoice) // !POST
+    .delete(authenticateRoute, InvoiceController.deleteAllInvoices); // !DELETE All
 
 router.route('/:id')
-    .get(passport.authenticate('jwt', {
-        session: false
-    }), InvoiceController.findInvoiceById) // !GET by Id
-
-    .delete(passport.authenticate('jwt', {
-        session: false
-    }), InvoiceController.deleteInvoicebyId) // !DELETE by Id
-
-    .put(passport.authenticate('jwt', {
-        session: false
-    }), InvoiceController.updateInvoice); // !PUT
-
+    .get(authenticateRoute, InvoiceController.findInvoiceById) // !GET by Id
+    .delete(authenticateRoute, InvoiceController.deleteInvoicebyId) // !DELETE by Id
+    .put(authenticateRoute, InvoiceController.updateInvoice); // !PUT
 
 
 module.exports = {

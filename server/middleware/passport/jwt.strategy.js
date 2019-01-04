@@ -18,20 +18,23 @@ const passportJwtStrategy = () => {
 
     // !JWT Strategy
     passport.use(
-        new JwtStrategy(opts, (payload, done) => {
-            UserModel.findOne({
-                _id: payload._id
-            }, (err, user) => {
-                if (err) {
-                    return done(err, false);
-                }
-                if (user) {
+        new JwtStrategy(opts, async (payload, done) => {
+
+            try {
+                const user = await UserModel.findOne({ // !Finding weather user object exist
+                    _id: payload._id
+                });
+
+                if (user) { // !Success-path, if user objec exist in the db(valid user)
                     return done(null, user);
                 } else {
                     return done(null, false);
                     // or you could create a new account
                 }
-            });
+
+            } catch (err) {
+                return done(err, false);
+            }
 
         })
     );
