@@ -23,6 +23,10 @@
         {
             "name": "Clients",
             "description": "API's for Client"
+        },
+        {
+            "name": "Users",
+            "description": "API's for User Authentication"
         }
     ],
     "schemes": [
@@ -77,6 +81,13 @@
                         "description": "Set sort direction ex- asc, desc, ascending, descending, 1, or -1",
                         "in": "query",
                         "required": false
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -132,14 +143,22 @@
                     "application/*+xml"
                 ],
                 "parameters": [{
-                    "name": "invoices",
-                    "description": "Create a new Invice",
-                    "in": "body",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/CreateInvoiceModel"
+                        "name": "invoices",
+                        "description": "Create a new Invice",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateInvoiceModel"
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
                     }
-                }],
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -188,12 +207,20 @@
                     "application/json"
                 ],
                 "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "Invoice ID",
-                    "required": true,
-                    "type": "string"
-                }],
+                        "name": "id",
+                        "in": "path",
+                        "description": "Invoice ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sucessfully fetched Invoice",
@@ -232,12 +259,20 @@
                     "application/json"
                 ],
                 "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "Id of the Invoice to be deleted",
-                    "required": true,
-                    "type": "string"
-                }],
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Invoice to be deleted",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sucessfully deleted Invoice"
@@ -280,6 +315,13 @@
                         "schema": {
                             "$ref": "#/definitions/UpdateInvoiceModel"
                         }
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
                     }
                 ],
                 "produces": [
@@ -326,6 +368,13 @@
                 ],
                 "summary": "Get All Clients",
                 "description": "GET ALL",
+                "parameters": [{
+                    "name": "authorization",
+                    "description": "Access token to authorize the user",
+                    "in": "header",
+                    "type": "string",
+                    "required": true
+                }],
                 "responses": {
                     "200": {
                         "description": "Success! fetched all clients",
@@ -375,14 +424,22 @@
                     "application/*+xml"
                 ],
                 "parameters": [{
-                    "name": "clients",
-                    "description": "Create a new Client",
-                    "in": "body",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/CreateClientModel"
+                        "name": "clients",
+                        "description": "Create a new Client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateClientModel"
+                        }
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
                     }
-                }],
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -429,12 +486,20 @@
                     "application/json"
                 ],
                 "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "Client ID",
-                    "required": true,
-                    "type": "string"
-                }],
+                        "name": "id",
+                        "in": "path",
+                        "description": "Client ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sucessfully fetched Client",
@@ -471,12 +536,20 @@
                     "application/json"
                 ],
                 "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "description": "Id of the Client to be deleted",
-                    "required": true,
-                    "type": "string"
-                }],
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the Client to be deleted",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Sucessfully deleted Client"
@@ -519,6 +592,13 @@
                         "schema": {
                             "$ref": "#/definitions/UpdateClientModel"
                         }
+                    },
+                    {
+                        "name": "authorization",
+                        "description": "Access token to authorize the user",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
                     }
                 ],
                 "produces": [
@@ -552,6 +632,112 @@
                     },
                     "500": {
                         "description": "Oops! Can't update Client"
+                    }
+                }
+            }
+        },
+        "/user/signup": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register new account",
+                "description": "Create new User Account",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "users",
+                    "description": "Create/Register a new User",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/SignupUserModel"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Signup Succesfully !!",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/UserModel"
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "message": "user created succesfully!",
+                                "data": "xyz@gmail.com",
+                                "status": 200
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User Model has missing values"
+                    },
+                    "422": {
+                        "description": "User Model has invalid values"
+                    },
+                    "500": {
+                        "description": "Oops! Can't create User"
+                    }
+                }
+            }
+        },
+        "/user/signin": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login existing User",
+                "description": "Signing in exisiting User Account",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "users",
+                    "description": "Login existing User",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/SigninUserModel"
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "headers": {
+                            "x-auth": {
+                                "type": "string",
+                                "description": "authentication token"
+                            }
+                        },
+                        "description": "Signin Succesfully !!",
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/UserModel"
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "message": "user loggedin successfully!",
+                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzJYXQiOjE1NDY2MDQzOTUsImV4cCI6MTU0NjYwNzk5NX0.7VhLsn0D0RrLwseIaXaY2ggDbVzomQZv-wGPZwmqQbY",
+                                "status": 200
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User Model has missing values"
+                    },
+                    "422": {
+                        "description": "User Model has invalid values"
+                    },
+                    "500": {
+                        "description": "Oops! Can't Signin user"
                     }
                 }
             }
@@ -751,6 +937,59 @@
                 "lastName": "Sabunkar",
                 "gender": true,
                 "email": "tsabukar@gmail.com"
+            }
+        },
+        "UserModel": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "SignupUserModel": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "email": "xyz@gmail.com",
+                "password": "1234"
+            }
+        },
+        "SigninUserModel": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "email": "xyz@gmail.com",
+                "password": "1234"
             }
         }
     }

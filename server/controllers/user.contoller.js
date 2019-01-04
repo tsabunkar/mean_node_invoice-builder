@@ -71,11 +71,11 @@ const loginUser = async (req, resp, next) => { // eslint-disable-line
         const userObject = await UserModel.findByCredentials(value.email, value.password);
 
         const token = userObject.generateAuthenticationToken();
-
+        resp.header('x-auth', token);
         resp.status(200).json({
             message: 'user loggedin successfully!',
             data: userObject,
-            token: token,
+            // token: token,
             status: 200
         });
 
