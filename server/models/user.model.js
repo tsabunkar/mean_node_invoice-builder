@@ -2,9 +2,8 @@ import {
     mongoose
 } from '../db/mongoose_config';
 
-import {
-    bcryptjs
-} from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 
 const UserSchema = mongoose.Schema({
@@ -22,56 +21,88 @@ const UserSchema = mongoose.Schema({
 
 
 // !before saving to db execute below code(i.e- dont store the password as string rather hash it)
-/* UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
     const user = this;
-    console.log('user', user);
-    console.log('**', user.isModified('password'));
-    // if user is modified or user is new
-    if (user.isModified('password')) {
 
-        //   const salt = await bcryptjs.genSalt();
-        //   console.log(salt);
-        // const hashedPassword = await bcryptjs.hash(user.password, salt);
-        // console.log(hashedPassword);
-
-
-        const hashedPassword = this.hashMyPassword(user);
-        this.password = hashedPassword;
-
-    }
-    next();
-
-}); */
-
-
-UserSchema.pre('save', function (next) {
-    const user = this;
-    console.log('user', user);
     //isModified() -> used to chech if a particular property is modified/changed , rt->boolean
-    const isPasswordModified = user.isModified('password');
-    console.log(isPasswordModified);
-    if (isPasswordModified) {
-        const actualPassword = user.password;
-        bcryptjs.genSalt(10, (err, salt) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log(salt);
-            bcryptjs.hash(actualPassword, salt, (err, hashValue) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log('hashValue', hashValue);
-                user.password = hashValue; //update the userObj password property with the hashedPassword value
-
-            });
-        });
-
+    if (user.isModified('password')) {
+        try {
+            const salt = await bcryptjs.genSalt();
+            const hashedPassword = await bcryptjs.hash(user.password, salt);
+            user.password = hashedPassword;
+        } catch (err) {
+            const err2 = new Error();
+            err2.message = 'sorry, unable to pre save';
+            err2.status = 500;
+            throw err2;
+        }
     }
-
     next();
 
 });
+
+
+//authenticating login credentials by creating a separate method
+UserSchema.statics.findByCredentials = async function (enteredEmail, enteredPassword) {
+    const UserModel = this; // !NOTE- Whenever using this in the function, never use arrow function
+
+    const userObj = await UserModel.findOne({
+        'email': enteredEmail
+    });
+
+    if (!userObj) { //if entered emailId doesnot exist in the DB
+        const err = new Error();
+        err.message = 'sorry, invalid username';
+        err.status = 500;
+        throw err;
+    }
+
+    return checkThePassword(enteredPassword, userObj);
+};
+
+
+const checkThePassword = async (enteredPassword, userObj) => {
+
+    const matched = await bcryptjs.compare(enteredPassword, userObj.password);
+
+    if (!matched) {
+        // !password didn't match
+        const err = new Error();
+        err.message = 'sorry, password did not match';
+        err.status = 500;
+        throw err;
+    }
+
+    return userObj;
+
+};
+
+
+
+UserSchema.methods.generateAuthToken = function () {
+    //using normal fun bcoz this keyword doesn't supports ==> 'this'
+    const userObj = this;
+    // const access = 'auth';
+
+    console.log(process.env.JWT_SECRET);
+
+    const jwtToken = jwt.sign({
+        _id: userObj._id
+    }, process.env.JWT_SECRET, {
+        expiresIn: '1h'
+    });
+
+    /*   userObj.tokens.push({
+          access,
+          token: jwtToken
+      }); */
+    console.log('in method');
+    console.log(jwtToken);
+    return jwtToken;
+
+};
+
+
 
 
 const UserModel = mongoose.model('user_collection', UserSchema);

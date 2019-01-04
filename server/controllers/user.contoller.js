@@ -4,7 +4,7 @@ import {
     UserModel
 } from '../models/user.model';
 
-
+import jwt from 'jsonwebtoken';
 
 
 const registerUser = async (req, resp, next) => { // eslint-disable-line
@@ -12,8 +12,7 @@ const registerUser = async (req, resp, next) => { // eslint-disable-line
         error,
         value
     } = joiValidation.joiValidationForCreateUser(req);
-    console.log(error);
-    console.log(value);
+
     if (error) {
         resp.status(500).json({
             message: error,
@@ -24,11 +23,8 @@ const registerUser = async (req, resp, next) => { // eslint-disable-line
     }
 
     const userModel = new UserModel(value);
-    console.log(userModel);
     try {
-        console.log('before save');
         const userCreated = await userModel.save();
-        console.log('userCreated', userCreated);
 
         if (!userCreated) {
             resp.status(500).json({
@@ -40,13 +36,12 @@ const registerUser = async (req, resp, next) => { // eslint-disable-line
         }
 
         resp.status(200).json({
-            message: 'You have created user succesfully!',
+            message: 'user created succesfully!',
             data: userCreated.email,
             status: 200
         });
 
     } catch (err) {
-        console.log('----error---');
         resp.status(500).json({
             message: err,
             data: '',
@@ -58,6 +53,59 @@ const registerUser = async (req, resp, next) => { // eslint-disable-line
 
 
 
+const loginUser = async (req, resp, next) => { // eslint-disable-line
+    const {
+        error,
+        value
+    } = joiValidation.joiValidationForLoginUser(req);
+
+    if (error) {
+        resp.status(500).json({
+            message: error,
+            data: '',
+            status: 500
+        });
+        return;
+    }
+
+
+    try {
+        const userObject = await UserModel.findByCredentials(value.email, value.password);
+        console.log(userObject);
+        // console.log(UserModel);
+
+        const token = UserModel.generateAuthToken();
+        console.log(token);
+        /*     console.log(userObject._id);
+            console.log(process.env.JWT_SECRET); */
+
+        /*   const jwtToken = jwt.sign({
+              _id: userObject._id
+          }, process.env.JWT_SECRET, {
+              expiresIn: '1h'
+          }); */
+
+        resp.status(200).json({
+            message: 'user loggedin succesfully!',
+            data: userObject,
+            token: token,
+            status: 200
+        });
+
+    } catch (err) {
+        resp.status(500).json({
+            message: err,
+            data: '',
+            status: 500
+        });
+    }
+
+};
+
+
+
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 };

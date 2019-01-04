@@ -8,8 +8,8 @@ router.route('/signup')
     .post(UserController.registerUser); // !POST
 
 
-/* router.route('/signin')
-    .post(UserController.loginUser); // !POST */
+router.route('/signin')
+    .post(UserController.loginUser); // !POST
 
 
 
