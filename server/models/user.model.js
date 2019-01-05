@@ -52,7 +52,7 @@ UserSchema.statics.findByCredentials = async function (enteredEmail, enteredPass
 
     if (!userObj) { //if entered emailId doesnot exist in the DB
         const err = new Error();
-        err.message = 'sorry, invalid username';
+        err.message = 'sorry, invalid email';
         err.status = 500;
         throw err;
     }
