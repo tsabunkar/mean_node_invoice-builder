@@ -7,10 +7,6 @@ import {
 
 
 const passportTwitterStrategy = () => {
-    console.log('-----Im here----');
-    console.log(process.env.TWITTER_CONSUMER_KEY);
-    console.log(process.env.TWITTER_CONSUMER_SECRET);
-    console.log(process.env.TWITTER_REDIRECT_URL);
 
     passport.use(new TwitterStrategy.Strategy({
             consumerKey: process.env.TWITTER_CONSUMER_KEY,

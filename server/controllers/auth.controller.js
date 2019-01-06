@@ -18,6 +18,7 @@ const generatingAuthTokenForSocialAggregator = (req, resp) => {
 
     // console.log('isAuthenticated', req.isAuthenticated());
     if (req.isAuthenticated()) {
+
         const tokenValue = jsonwebtoken.sign({
             _id: req.user.id
         }, process.env.JWT_SECRET, {
@@ -25,11 +26,8 @@ const generatingAuthTokenForSocialAggregator = (req, resp) => {
         });
 
 
-        // const tokenValue = signedToken(req.user);
-        // resp.header('x-auth', tokenValue);
-
         resp.status(200);
-        // !token from vendor is stored in queryParam
+        // !token from vendor is stored in queryParam, instead of header
         resp.redirect(`${process.env.FRONTEND_URL}/dashboard/invoices?authtoken=${tokenValue}`);
 
 
@@ -45,8 +43,17 @@ const userValidated = (req, resp) => {
     return resp.send(true); // since user is authenticated by vendor(like-google,fb,.. so return true)
 };
 
+const logoutCurrentUser = (req, resp) => {
+    // ! logout() method is given passoprt - http://www.passportjs.org/docs/logout/
+    req.logout(); // removes the session and remove the req.user (i.e-user object)
+    return resp.json({
+        message: 'Successfully logged out!'
+    });
+};
+
 
 module.exports = {
     generatingAuthTokenForSocialAggregator,
-    userValidated
+    userValidated,
+    logoutCurrentUser
 };

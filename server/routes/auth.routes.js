@@ -5,7 +5,8 @@ const router = express.Router();
 
 import {
     generatingAuthTokenForSocialAggregator,
-    userValidated
+    userValidated,
+    logoutCurrentUser
 } from '../controllers/auth.controller';
 
 
@@ -85,6 +86,10 @@ const authenticateRoute = passport.authenticate('jwt', {
 });
 // !authenticate the google,fb,.. token is a valid jwt token
 router.get('/authenticate', authenticateRoute, userValidated);
+
+
+// !Loging out the current loggedin user
+router.get('/logout', authenticateRoute, logoutCurrentUser);
 
 module.exports = {
     authRoutes: router
