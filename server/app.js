@@ -18,12 +18,20 @@ import {
 } from './routes/user.routes';
 
 import {
+    authRoutes
+} from './routes/auth.routes';
+
+import {
     passportInitialConfiguration
 } from './passportConfig';
 
 import {
     passportJwtStrategy
 } from './middleware/passport/jwt.strategy';
+
+import {
+    passportGoogleStrategy
+} from './middleware/passport/google.strategy';
 
 
 
@@ -59,7 +67,9 @@ app.use((req, resp, next) => {
 
 // !Intializing Passport
 passportInitialConfiguration(app);
+
 passportJwtStrategy(); // !Registering JWT Stratergy
+passportGoogleStrategy(); // !Registering GOOGLE Stratergy
 
 
 
@@ -83,7 +93,13 @@ app.use('/api/client', clientRoutes);
 // http://localhost:3000/api/user
 app.use('/api/user', userRoute);
 
+// http://localhost:3000/api/auth
+app.use('/api/auth', authRoutes);
 
+
+app.get('/failure', (req, resp) => {
+    resp.redirect('http://localhost:4200/login');
+});
 
 // !Creating a global level middleware for Error handling
 app.use((req, resp, next) => {

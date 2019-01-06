@@ -84,4 +84,21 @@ fileds/property, has valid data-type, length of the field/property).
 Thus Instead of we validting this code by manually/programtically, we can use JOI
 
   
---------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+Google Authentication-
+https://console.developers.google.com/
+Create New Project > Project Name : Social Authentication > Select Social Authenticatio project >
+APIs and Service -> Library > Search for : Google+ API > Enable > APIs and Service -> Credentials >
+OAuth Conset Screen (tab) >
+                           Application Name : Social Authentication , (same Name as Proj Name)
+                           Save    
+Credentials(tab) >                           
+Create Credentials > OAuth Client ID > Web Application > 
+                           Name : Invoice-Builder
+                           Authorize redirect uri: http://localhost:3000/api/auth/google/callback 
+                           Create  
+ You Will get ClientId and Client Secret (copy that, or else download that json file itself)
+
+Intall -> passport-google-oauth
+
+------------------------------------------------------------------------------------------------------

@@ -20,9 +20,15 @@ const registerUser = async (req, resp, next) => { // eslint-disable-line
         return;
     }
 
-    const userModel = new UserModel(value);
+    // const userModel = new UserModel(value);
+
+    const userObj = new UserModel();
+    userObj.methodstosignup = 'local';
+    userObj.local.email = value.email;
+    userObj.local.password = value.password;
+
     try {
-        const userCreated = await userModel.save();
+        const userCreated = await userObj.save();
 
         if (!userCreated) {
             resp.status(500).json({
