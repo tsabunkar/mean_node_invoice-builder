@@ -19,6 +19,16 @@
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_secret": "vg_x2krX6oFldsNLlZ-Rg8GZ",
             "redirect_uris": ["http://localhost:3000/api/auth/google/callback"]
+        },
+        "TWITTER_WEB": {
+            "consumer_key": "7BVbTdrKA8PebFvBy4OzjOmZP",
+            "consumer_secret": "9rrPGEnoBMrsLSHTeDzb46XUpyjc5RHTuZLDyH3e1HnGScBGeS ",
+            "redirect_uris": ["http://localhost:3000/api/auth/twitter/callback"]
+        },
+        "GITHUB_WEB": {
+            "client_id": "c6531102f0e1e7d907a6",
+            "client_secret": "6035d6f0f56a2926e2ac4f0f73b4c65ee6fc9968",
+            "redirect_uris": ["http://localhost:3000/api/auth/github/callback"]
         }
     }
 }

@@ -4,9 +4,11 @@ import passport from 'passport';
 const router = express.Router();
 
 import {
-    generatingAuthTokenForGoogleId
+    generatingAuthTokenForSocialAggregator
 } from '../controllers/auth.controller';
 
+
+// ?_____________________GOOGLE____________________________________
 
 // !below route Execute - First (this will open -> Sign in with <<Google Window>> )
 // !http://localhost:3000/api/auth/google
@@ -36,13 +38,41 @@ router.route('/google/callback')
     .get(passport.authenticate('google', {
             failureRedirect: '/failure'
         }),
-        generatingAuthTokenForGoogleId);
+        generatingAuthTokenForSocialAggregator);
 
 
 
+// ?_____________________TWITTER____________________________________
+
+router.route('/twitter2')
+    .get((req, resp) => {
+        resp.json({
+            mess: 'hellow'
+        });
+    }); // ! will invokes -> passportTwitterStrategy() [twitter.strategy.js]
 
 
+router.route('/twitter')
+    .get(passport.authenticate('twitter'));
 
+
+router.route('/twitter/callback')
+    .get(passport.authenticate('twitter', {
+            failureRedirect: '/failure'
+        }),
+        generatingAuthTokenForSocialAggregator);
+
+// ?_____________________GIT-HUB____________________________________
+
+
+router.route('/github')
+    .get(passport.authenticate('github'));
+
+router.route('/github/callback')
+    .get(passport.authenticate('github', {
+            failureRedirect: '/failure'
+        }),
+        generatingAuthTokenForSocialAggregator);
 
 module.exports = {
     authRoutes: router

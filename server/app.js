@@ -33,6 +33,13 @@ import {
     passportGoogleStrategy
 } from './middleware/passport/google.strategy';
 
+import {
+    passportTwitterStrategy
+} from './middleware/passport/twitter.strategy';
+
+import {
+    passportGitHubStrategy
+} from './middleware/passport/github.strategy';
 
 
 
@@ -70,8 +77,8 @@ passportInitialConfiguration(app);
 
 passportJwtStrategy(); // !Registering JWT Stratergy
 passportGoogleStrategy(); // !Registering GOOGLE Stratergy
-
-
+passportTwitterStrategy(); // !Registering TWITTER Stratergy
+passportGitHubStrategy(); // !Resigstering GITHUB Stratergy
 
 
 
@@ -98,8 +105,13 @@ app.use('/api/auth', authRoutes);
 
 
 app.get('/failure', (req, resp) => {
+    // resp.json({
+    //     message:'tejas'
+    // });
     resp.redirect('http://localhost:4200/login');
 });
+
+
 
 // !Creating a global level middleware for Error handling
 app.use((req, resp, next) => {

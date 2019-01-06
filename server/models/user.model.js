@@ -23,7 +23,7 @@ import jwt from 'jsonwebtoken';
 const UserSchema = new mongoose.Schema({
     methodstosignup: { //it will tell us, what type of method used by end user to make his/her account ie- whether signedup using local authen, google authen or facebook authen
         type: String,
-        enum: ['local', 'google', 'facebook'], //this methodstosignup can be either of this String value only
+        enum: ['local', 'google', 'twitter', 'github', 'facebook'], //this methodstosignup can be either of this String value only
         required: true
     },
     local: {
@@ -41,6 +41,36 @@ const UserSchema = new mongoose.Schema({
             lowercase: true
         },
         googleId: {
+            type: String
+        },
+        displayName: {
+            type: String
+        },
+        token: {
+            type: String
+        },
+    },
+    twitter: {
+        username: {
+            type: String,
+            lowercase: true
+        },
+        twitterId: {
+            type: String
+        },
+        displayName: {
+            type: String
+        },
+        token: {
+            type: String
+        },
+    },
+    github: {
+        email: {
+            type: String,
+            lowercase: true
+        },
+        githubId: {
             type: String
         },
         displayName: {

@@ -101,4 +101,53 @@ Create Credentials > OAuth Client ID > Web Application >
 
 Intall -> passport-google-oauth
 
+
+------------------------------------------------------------------------------------------------------
+Twitter Authentication- 
+https://developer.twitter.com/  (first login to ur twitter account)
+
+
+Apps (https://developer.twitter.com/en/apps) >   create a developer account >
+                 Choose User Profile - sabunkartejas@gmail.com
+                 Account details - I am requesting access for my own personal use   
+                                    account Name : InvoiceBuilder
+                Use Case Details - (select appropriate, or else like prev ur account wuld be suspeneded)
+                Terms of Services - Submit application   
+
+ (you will recieve confirmation mail, confirm that link)
+
+ (select ur Project InvoiceBuilder)   > Create an App(row select) >  Create an App(button) >                             App Name : InvoiceBuilder
+              Application description :  Invoice Builder Application for MEAN Stack Application
+              Website URL :   https://github.com/tsabunkar
+              Allow this application to be used to sign in with Twitter : Enable (select)
+              Callback URLs : http://localhost:3000/api/auth/twitter/callback
+                                              (or)
+                              http://192.168.56.1:3000/api/auth/twitter/callback
+                                              (or)
+                              http://127.0.0.1:3000/api/auth/twitter/callback
+             Desription : (Detail description of our application)
+
+             Create
+
+
+Keys and tokens (tab) > Here u will find COnsumer API keys and Access token and access token secerte
+
+Install -> npm i passport-twitter
+
+
+------------------------------------------------------------------------------------------------------
+Github Authentication-
+https://github.com/tsabunkar
+
+Settings > Developers Settings > Register a new application > 
+        Application name: InvoiceBuilder
+        Homepage URL: http://localhost:3000
+        Authorization callback URL: http://localhost:3000/api/auth/github/callback
+    Register application
+
+(you will get clientId and Client Secret)
+
+Install -> npm install passport-github
+
+
 ------------------------------------------------------------------------------------------------------

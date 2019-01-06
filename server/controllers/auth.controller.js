@@ -14,7 +14,7 @@ import jsonwebtoken from 'jsonwebtoken';
 }; */
 
 
-const generatingAuthTokenForGoogleId = (req, resp) => {
+const generatingAuthTokenForSocialAggregator = (req, resp) => {
 
     // console.log('isAuthenticated', req.isAuthenticated());
     if (req.isAuthenticated()) {
@@ -41,5 +41,5 @@ const generatingAuthTokenForGoogleId = (req, resp) => {
 
 
 module.exports = {
-    generatingAuthTokenForGoogleId
+    generatingAuthTokenForSocialAggregator
 };
