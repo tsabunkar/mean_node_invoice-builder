@@ -11,6 +11,7 @@
         "MONGODB_URI": "mongodb+srv://tejas-admin:icui4cuNOW@mycluster-0mtaj.mongodb.net/postMessagesdb?retryWrites=true",
         "JWT_SECRET": "mySalt123!",
         "ENV": "development",
+        "FRONTEND_URL": "http://localhost:4200",
         "GOOGLE_WEB": {
             "client_id": "1058155316362-mssjc7tma14th24abdvlv4pdkdc4e1gn.apps.googleusercontent.com",
             "project_id": "social-authentication-227802",

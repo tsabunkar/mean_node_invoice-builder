@@ -10,6 +10,7 @@ if (env === 'development' || env === 'test') {
         process.env.MONGODB_URI = config.development.MONGODB_URI;
         process.env.JWT_SECRET = config.development.JWT_SECRET;
         process.env.ENV = config.development.ENV;
+        process.env.FRONTEND_URL = config.development.FRONTEND_URL;
 
         process.env.GOOGLE_CLIENT_ID = config.development.GOOGLE_WEB.client_id;
         process.env.GOOGLE_CLIENT_SECRET = config.development.GOOGLE_WEB.client_secret;

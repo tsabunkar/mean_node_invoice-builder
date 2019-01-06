@@ -4,7 +4,8 @@ import passport from 'passport';
 const router = express.Router();
 
 import {
-    generatingAuthTokenForSocialAggregator
+    generatingAuthTokenForSocialAggregator,
+    userValidated
 } from '../controllers/auth.controller';
 
 
@@ -73,6 +74,17 @@ router.route('/github/callback')
             failureRedirect: '/failure'
         }),
         generatingAuthTokenForSocialAggregator);
+
+
+
+
+
+// ?Authenticating the token present in the local storage(which is provided by 3rd party vendors) is valid one
+const authenticateRoute = passport.authenticate('jwt', {
+    session: false
+});
+// !authenticate the google,fb,.. token is a valid jwt token
+router.get('/authenticate', authenticateRoute, userValidated);
 
 module.exports = {
     authRoutes: router

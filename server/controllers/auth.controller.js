@@ -26,20 +26,27 @@ const generatingAuthTokenForSocialAggregator = (req, resp) => {
 
 
         // const tokenValue = signedToken(req.user);
-        resp.header('x-auth', tokenValue);
+        // resp.header('x-auth', tokenValue);
 
-        resp.status(200).json({
-            message: 'user loggedin successfully!',
-        });
+        resp.status(200);
+        // !token from vendor is stored in queryParam
+        resp.redirect(`${process.env.FRONTEND_URL}/dashboard/invoices?authtoken=${tokenValue}`);
+
+
     } else { // not authenticated yet
         resp.status(500).json({
-            message: 'User is not authenticated by google yet!!',
+            message: 'User is not authenticated by yet!!',
         });
     }
 };
 
 
+const userValidated = (req, resp) => {
+    return resp.send(true); // since user is authenticated by vendor(like-google,fb,.. so return true)
+};
+
 
 module.exports = {
-    generatingAuthTokenForSocialAggregator
+    generatingAuthTokenForSocialAggregator,
+    userValidated
 };
