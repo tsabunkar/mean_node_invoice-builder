@@ -175,4 +175,17 @@ Facebook Login > Quick Start > Follow the pocedure
 
 
 Install -> npm install passport-facebook
+
+
+------------------------------------------------------------------------------------------------------
+To Send Email to the end-client use -> Nodemailer 
+
+for SMTP (Simple Mail Transfer Protocol ) service use -> https://ethereal.email/
+
+username - v5zy7qcua45cedpd@ethereal.email
+password - fDgpCYCeyJ5gfpqnaX
+
+Install ->
+npm i nodemailer
+npm i html-to-text
 ------------------------------------------------------------------------------------------------------

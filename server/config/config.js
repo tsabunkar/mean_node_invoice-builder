@@ -24,6 +24,11 @@ if (env === 'development' || env === 'test') {
         process.env.GITHUB_CLIENT_SECRET = config.development.GITHUB_WEB.client_secret;
         process.env.GITHUB_REDIRECT_URL = config.development.GITHUB_WEB.redirect_uris[0];
 
+        process.env.FAKE_EMAIL = config.development.ETHEREAL.auth.user;
+        process.env.FAKE_PASSWORD = config.development.ETHEREAL.auth.pass;
+        process.env.FAKE_HOST = config.development.ETHEREAL.host;
+        process.env.FAKE_PORT = config.development.ETHEREAL.port;
+
 
 
     } else { // testing env

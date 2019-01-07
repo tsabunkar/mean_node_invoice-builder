@@ -4,6 +4,14 @@ import {
     UserModel
 } from '../models/user.model';
 
+import {
+    generateJWTToken
+} from '../helpers/generate-jwt-utility';
+
+import {
+    sendEmail
+} from '../helpers/mail';
+
 
 const registerUser = async (req, resp, next) => { // eslint-disable-line
     const {
@@ -104,10 +112,85 @@ const test = (req, resp) => {
 
 };
 
+const forgotPassword = async (req, resp) => {
+
+    const {
+        error,
+        value
+    } = joiValidation.joiValidationForForgotPassword(req);
+
+    if (error) {
+        resp.status(500).json({
+            message: error,
+            data: '',
+            status: 500
+        });
+        return;
+    }
+
+    try {
+
+        const criteria = {
+            $or: [{
+                    'google.email': value.email
+                },
+                {
+                    'github.email': value.email
+                },
+                {
+                    'local.email': value.email
+                },
+            ]
+        };
+
+        const userObject = await UserModel.findOne(criteria);
+        console.log('userObject', userObject);
+        if (!userObject) {
+            resp.status(500).json({
+                message: 'User not found',
+                data: '',
+                status: 500
+            });
+            return;
+        }
+
+        // !if user is found, then generate jwt token
+        const token = generateJWTToken({
+            _id: userObject._id
+        });
+
+        // !Create reset link
+        const resetLink = `
+        <h4>Please click on the link to reset the password !</h4>
+        <a href='${process.env.FRONTEND_URL}/resetpassword/${token}'>reset</a>
+        `;
+
+        // const sanitizedUser =
+        const options = {
+            html: resetLink,
+            subject: 'Forgot Passowrd',
+            email: userObject.google.email
+        };
+        const result = await sendEmail(options);
+
+        resp.json({
+            message: result
+        });
+
+    } catch (err) {
+        resp.status(500).json({
+            message: err,
+            data: '',
+            status: 500
+        });
+    }
+};
+
 
 
 module.exports = {
     registerUser,
     loginUser,
-    test
+    test,
+    forgotPassword
 };

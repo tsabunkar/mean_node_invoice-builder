@@ -18,6 +18,8 @@ router.route('/test')
     }), UserController.test); // !POST
 
 
+router.route('/forgotpassword')
+    .post(UserController.forgotPassword);
 
 module.exports = {
     userRoute: router

@@ -134,6 +134,24 @@ const joiValidationForLoginUser = (req) => {
     };
 };
 
+const joiValidationForForgotPassword = (req) => {
+
+    const idealSchemaForUserModel = Joi.object().keys({
+        email: Joi.string().required().email()
+    });
+
+    const {
+        error,
+        value
+    } = Joi.validate(req.body, idealSchemaForUserModel);
+
+
+    return {
+        error,
+        value
+    };
+};
+
 
 module.exports = {
     joiValidationForCreateInvoice,
@@ -141,5 +159,6 @@ module.exports = {
     joiValidationForCreateClient,
     joiValidationForUpdateClient,
     joiValidationForCreateUser,
-    joiValidationForLoginUser
+    joiValidationForLoginUser,
+    joiValidationForForgotPassword
 };

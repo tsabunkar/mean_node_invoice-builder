@@ -30,6 +30,15 @@
             "client_id": "c6531102f0e1e7d907a6",
             "client_secret": "6035d6f0f56a2926e2ac4f0f73b4c65ee6fc9968",
             "redirect_uris": ["http://localhost:3000/api/auth/github/callback"]
+        },
+        "ETHEREAL": {
+            "host": "smtp.ethereal.email",
+            "port": 587,
+            "auth": {
+                "user": "v5zy7qcua45cedpd@ethereal.email",
+                "pass": "fDgpCYCeyJ5gfpqnaX"
+            }
         }
+
     }
 }
