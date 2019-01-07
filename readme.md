@@ -151,3 +151,28 @@ Install -> npm install passport-github
 
 
 ------------------------------------------------------------------------------------------------------
+Facebook Authentication-
+https://developers.facebook.com
+
+Create New App > 
+            Display Name: InvoiceBuilder
+            Contact email: sabunkartejas@gmail.com
+            Submit
+
+Select a Scenario > Integrate Facebook Login
+
+Note down (BasicSetting) - AppID : 324422161747848
+                           App Secret : a24bffadd5f76b31763745d8bd5efff6
+                           Add platform - Select (web)
+                           Site Url: http://localhost:3000
+
+Settings > Advanced > 
+                    Client token : (cpopy this value)
+
+Dashboard > Make sure facebook login extnension or plugin is installed
+
+Facebook Login > Quick Start > Follow the pocedure
+
+
+Install -> npm install passport-facebook
+------------------------------------------------------------------------------------------------------
