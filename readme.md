@@ -157,7 +157,7 @@ https://developers.facebook.com
 Create New App > 
             Display Name: InvoiceBuilder
             Contact email: sabunkartejas@gmail.com
-            Submit
+            Submit 
 
 Select a Scenario > Integrate Facebook Login
 
