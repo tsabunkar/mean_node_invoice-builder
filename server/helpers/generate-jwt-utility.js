@@ -1,4 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
+import bcryptjs from 'bcryptjs';
+
 
 const generateJWTToken = (payload) => {
 
@@ -9,6 +11,17 @@ const generateJWTToken = (payload) => {
     return jwtToken;
 };
 
+const getEncryptedPassword = async password => {
+
+    // !Generate a salt
+    const salt = await bcryptjs.genSalt();
+    // !generate a password hashed (salt + hash)
+    const hashedPassword = await bcryptjs.hash(password, salt);
+    return hashedPassword;
+};
+
+
 module.exports = {
-    generateJWTToken
+    generateJWTToken,
+    getEncryptedPassword
 };

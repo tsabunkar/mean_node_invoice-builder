@@ -18,8 +18,19 @@ router.route('/test')
     }), UserController.test); // !POST
 
 
+
 router.route('/forgotpassword')
     .post(UserController.forgotPassword);
+
+
+const authenticateRoute = passport.authenticate('jwt', {
+    session: false
+});
+
+router.route('/resetpassword')
+    .post(authenticateRoute, UserController.resetPassword);
+
+
 
 module.exports = {
     userRoute: router

@@ -5,7 +5,8 @@ import {
 } from '../models/user.model';
 
 import {
-    generateJWTToken
+    generateJWTToken,
+    getEncryptedPassword
 } from '../helpers/generate-jwt-utility';
 
 import {
@@ -186,11 +187,49 @@ const forgotPassword = async (req, resp) => {
     }
 };
 
+const resetPassword = async (req, resp) => {
+    const {
+        password
+    } = req.body;
 
+    if (!password) {
+        resp.status(500).json({
+            message: 'Password is required field',
+            data: '',
+            status: 500
+        });
+        return;
+    }
+    try {
+        console.log('user id is ', req.user._id);
+        const userObj = await UserModel.findById(req.user._id);
+        if (!userObj.local.email) { // !if logged in with vendors, then, create new creds in local strategy
+            userObj.local.email = req.user.email;
+            userObj.local.name = req.user.name;
+        }
+        const hashPassword = await getEncryptedPassword(password);
+
+        userObj.local.password = hashPassword;
+        await userObj.save(); // !-----------------
+
+        resp.json({
+            message: 'Password reseted successfully'
+        });
+
+    } catch (err) {
+        resp.status(500).json({
+            message: err,
+            data: '',
+            status: 500
+        });
+    }
+
+};
 
 module.exports = {
     registerUser,
     loginUser,
     test,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 };
