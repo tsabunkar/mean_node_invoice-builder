@@ -10,7 +10,7 @@ import {
 } from '../helpers/generate-jwt-utility';
 
 import {
-    sendEmail
+    sendEmailToClientForResetPassword
 } from '../helpers/mail';
 
 
@@ -131,6 +131,7 @@ const forgotPassword = async (req, resp) => {
 
     try {
 
+        // ! or logic to check weather email exist in google or github or local
         const criteria = {
             $or: [{
                     'google.email': value.email
@@ -161,18 +162,22 @@ const forgotPassword = async (req, resp) => {
         });
 
         // !Create reset link
-        const resetLink = `
-        <h4>Please click on the link to reset the password !</h4>
-        <a href='${process.env.FRONTEND_URL}/resetpassword/${token}'>reset</a>
+        const resetLink =
+            `<h1>Hi there! 🐫</h1>
+        <div>You recently asked to reset your account password.</div>
+        <div> Click here to <a href='${process.env.FRONTEND_URL}/resetpassword/${token}'>reset</a>
+        your password.</div>
+        <p>If you did not request a new password, 🍄 please let us know immediately to our customer care.<p>
+        <div> Thank you !! </div>
         `;
 
-        // const sanitizedUser =
         const options = {
             html: resetLink,
-            subject: 'Forgot Passowrd',
-            email: userObject.google.email
+            subject: 'Reset your InvoiceBuilder Password 👍',
+            email: userObject.google.email // !if user has logged in with google, but clicks of forgot password
+            // ! same shld be done for other vendors also
         };
-        const result = await sendEmail(options);
+        const result = await sendEmailToClientForResetPassword(options);
 
         resp.json({
             message: result
@@ -203,14 +208,17 @@ const resetPassword = async (req, resp) => {
     try {
         console.log('user id is ', req.user._id);
         const userObj = await UserModel.findById(req.user._id);
-        if (!userObj.local.email) { // !if logged in with vendors, then, create new creds in local strategy
+        if (!userObj.local.email) {
+            // !if already logged in with 3rd party vendors,
+            // !then, create new creds in local strategy (both local.email and local.password)
+
             userObj.local.email = req.user.email;
             userObj.local.name = req.user.name;
         }
         const hashPassword = await getEncryptedPassword(password);
 
         userObj.local.password = hashPassword;
-        await userObj.save(); // !-----------------
+        await userObj.save();
 
         resp.json({
             message: 'Password reseted successfully'

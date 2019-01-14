@@ -18,6 +18,7 @@ router.route('/test')
     }), UserController.test); // !POST
 
 
+// ! Routes for Forgot password and reset password
 
 router.route('/forgotpassword')
     .post(UserController.forgotPassword);
