@@ -187,5 +187,5 @@ password - fDgpCYCeyJ5gfpqnaX
 
 Install ->
 npm i nodemailer
-npm i html-to-text
+npm i html-to-text 
 ------------------------------------------------------------------------------------------------------
