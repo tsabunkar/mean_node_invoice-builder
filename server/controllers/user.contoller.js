@@ -144,7 +144,7 @@ const forgotPassword = async (req, resp) => {
                 },
             ]
         };
-
+        console.log('--criteria', criteria);
         const userObject = await UserModel.findOne(criteria);
         console.log('userObject', userObject);
         if (!userObject) {
@@ -170,11 +170,26 @@ const forgotPassword = async (req, resp) => {
         <p>If you did not request a new password, 🍄 please let us know immediately to our customer care.<p>
         <div> Thank you !! </div>
         `;
+        console.log('reset link is send to end-client');
+        console.log('method to signup', userObject.methodstosignup);
+
+        // !logic to check forgot user is from local strategy or from 3rd party vendor
+        let emailVal;
+        if (userObject.methodstosignup === 'local') {
+            console.log('local strategy');
+            emailVal = userObject.local.email;
+        } else if (userObject.methodstosignup === 'google') {
+            console.log('Google strategy');
+            emailVal = userObject.google.email;
+        } else if (userObject.methodstosignup === 'github') {
+            console.log('Github strategy');
+            emailVal = userObject.google.github;
+        }
 
         const options = {
             html: resetLink,
             subject: 'Reset your InvoiceBuilder Password 👍',
-            email: userObject.google.email // !if user has logged in with google, but clicks of forgot password
+            email: emailVal // !if user has logged in with google, but clicks of forgot password
             // ! same shld be done for other vendors also
         };
         const result = await sendEmailToClientForResetPassword(options);
@@ -191,9 +206,9 @@ const forgotPassword = async (req, resp) => {
         });
     }
 };
-
+/*
 const resetPassword = async (req, resp) => {
-    const {
+    const { //! getting password from request object
         password
     } = req.body;
 
@@ -206,22 +221,88 @@ const resetPassword = async (req, resp) => {
         return;
     }
     try {
-        console.log('user id is ', req.user._id);
+
         const userObj = await UserModel.findById(req.user._id);
-        if (!userObj.local.email) {
+        console.log('founded user object', userObj);
+        console.log('method of signup is : ', userObj.methodstosignup);
+        // if (!userObj.local.email) {
+        if (userObj.methodstosignup !== 'local') {
+            console.log('--GOOGLE or GITHUB');
             // !if already logged in with 3rd party vendors,
             // !then, create new creds in local strategy (both local.email and local.password)
 
             userObj.local.email = req.user.email;
-            userObj.local.name = req.user.name;
+
+            // userObj.local.name = req.user.name;
         }
+
+        // !if end-client form local strategy then just update the password (or) end-client from 3rd party
+        // !vendor then create the local.email in the above if statement, later create a new local.password field
+
         const hashPassword = await getEncryptedPassword(password);
 
         userObj.local.password = hashPassword;
         await userObj.save();
 
         resp.json({
-            message: 'Password reseted successfully'
+            message: 'Password rested successfully'
+        });
+
+    } catch (err) {
+        resp.status(500).json({
+            message: err,
+            data: '',
+            status: 500
+        });
+    }
+
+}; */
+
+const resetPassword = async (req, resp) => {
+    const { //! getting password from request object
+        password
+    } = req.body;
+
+    if (!password) {
+        resp.status(500).json({
+            message: 'Password is required field',
+            data: '',
+            status: 500
+        });
+        return;
+    }
+    try {
+
+        const userObj = await UserModel.findById(req.user._id);
+        console.log('founded user object', userObj);
+        console.log('method of signup is : ', userObj.methodstosignup);
+        // if (!userObj.local.email) {
+        if (userObj.methodstosignup !== 'local') {
+            console.log('--GOOGLE or GITHUB');
+            // !if already logged in with 3rd party vendors,
+            // !then, create new creds in local strategy (both local.email and local.password)
+
+            // userObj.local.email = req.user.email;
+
+            const newlyCreatedUserObj = new UserModel();
+            newlyCreatedUserObj.methodstosignup = 'local';
+            newlyCreatedUserObj.local.email = req.value.email;
+            newlyCreatedUserObj.local.password = password;
+            console.log('newly create user object', newlyCreatedUserObj);
+            await newlyCreatedUserObj.save();
+        } else {
+            // !if end-client form local strategy then just update the password (or) end-client from 3rd party
+            // !vendor then create the local.email in the above if statement, later create a new local.password field
+
+            // const hashPassword = await getEncryptedPassword(password);
+
+            // userObj.local.password = hashPassword;
+            userObj.local.password = password;
+            await userObj.save();
+        }
+
+        resp.json({
+            message: 'Password rested successfully'
         });
 
     } catch (err) {

@@ -28,8 +28,9 @@ const authenticateRoute = passport.authenticate('jwt', {
     session: false
 });
 
+// !PUT Http Method bcoz we r updating the exisiting password
 router.route('/resetpassword')
-    .post(authenticateRoute, UserController.resetPassword);
+    .put(authenticateRoute, UserController.resetPassword);
 
 
 
