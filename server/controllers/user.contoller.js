@@ -6,7 +6,7 @@ import {
 
 import {
     generateJWTToken,
-    getEncryptedPassword
+    // getEncryptedPassword
 } from '../helpers/generate-jwt-utility';
 
 import {
@@ -215,7 +215,7 @@ const forgotPassword = async (req, resp) => {
         });
     }
 };
-/* 
+/*
 const resetPassword = async (req, resp) => {
     const { //! getting password from request object
         password

@@ -202,7 +202,7 @@ const findInvoiceById = async (req, resp, next) => { // eslint-disable-line
     try {
         const invoice = await InvoiceModel.findOne({
             _id: uriIdFetch
-        });
+        }).populate('client'); // findone invoice, but also with the sub-client object inside the invoice object
 
         if (!invoice) {
             // If document is empty
