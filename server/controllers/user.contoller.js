@@ -144,12 +144,21 @@ const forgotPassword = async (req, resp) => {
                 },
             ]
         };
-        console.log('--criteria', criteria);
+        // console.log('--criteria', criteria);
         const userObject = await UserModel.findOne(criteria);
-        console.log('userObject', userObject);
+        // console.log('userObject', userObject);
         if (!userObject) {
             resp.status(500).json({
                 message: 'User not found',
+                data: '',
+                status: 500
+            });
+            return;
+        } else if (userObject.methodstosignup !== 'local') {
+            // !3rd party forgot password is under consrtuction
+            const message = `Sorry you have signed it with ${userObject.methodstosignup}, please register/signup or signin again with ${userObject.methodstosignup}`;
+            resp.status(500).json({
+                message: message,
                 data: '',
                 status: 500
             });
@@ -206,7 +215,7 @@ const forgotPassword = async (req, resp) => {
         });
     }
 };
-/*
+/* 
 const resetPassword = async (req, resp) => {
     const { //! getting password from request object
         password
@@ -223,26 +232,29 @@ const resetPassword = async (req, resp) => {
     try {
 
         const userObj = await UserModel.findById(req.user._id);
-        console.log('founded user object', userObj);
-        console.log('method of signup is : ', userObj.methodstosignup);
-        // if (!userObj.local.email) {
+
         if (userObj.methodstosignup !== 'local') {
-            console.log('--GOOGLE or GITHUB');
             // !if already logged in with 3rd party vendors,
             // !then, create new creds in local strategy (both local.email and local.password)
 
-            userObj.local.email = req.user.email;
+            const newlyCreatedUserObj = new UserModel();
+            newlyCreatedUserObj.methodstosignup = 'local';
+            newlyCreatedUserObj.local.email = userObj.google.email;
+            newlyCreatedUserObj.local.password = password;
 
-            // userObj.local.name = req.user.name;
+            await newlyCreatedUserObj.save();
+
+        } else {
+            // !if end-client form local strategy then just update the password (or) end-client from 3rd party
+            // !vendor then create the local.email in the above if statement, later create a new local.password field
+
+            // const hashPassword = await getEncryptedPassword(password);
+            // userObj.local.password = hashPassword;
+
+            // !hashing of above password is not required, since before save() we already did hashing of password
+            userObj.local.password = password;
+            await userObj.save();
         }
-
-        // !if end-client form local strategy then just update the password (or) end-client from 3rd party
-        // !vendor then create the local.email in the above if statement, later create a new local.password field
-
-        const hashPassword = await getEncryptedPassword(password);
-
-        userObj.local.password = hashPassword;
-        await userObj.save();
 
         resp.json({
             message: 'Password rested successfully'
@@ -274,29 +286,33 @@ const resetPassword = async (req, resp) => {
     try {
 
         const userObj = await UserModel.findById(req.user._id);
-        console.log('founded user object', userObj);
-        console.log('method of signup is : ', userObj.methodstosignup);
-        // if (!userObj.local.email) {
+
         if (userObj.methodstosignup !== 'local') {
-            console.log('--GOOGLE or GITHUB');
             // !if already logged in with 3rd party vendors,
             // !then, create new creds in local strategy (both local.email and local.password)
 
-            // userObj.local.email = req.user.email;
-
-            const newlyCreatedUserObj = new UserModel();
+            /* const newlyCreatedUserObj = new UserModel();
             newlyCreatedUserObj.methodstosignup = 'local';
-            newlyCreatedUserObj.local.email = req.value.email;
+            newlyCreatedUserObj.local.email = userObj.google.email;
             newlyCreatedUserObj.local.password = password;
-            console.log('newly create user object', newlyCreatedUserObj);
-            await newlyCreatedUserObj.save();
+
+            await newlyCreatedUserObj.save(); */
+            const message = `Sorry you have signed it with ${userObj.methodstosignup}, please register/signup or signin again with ${userObj.methodstosignup}`;
+            resp.status(500).json({
+                message: message,
+                data: '',
+                status: 500
+            });
+            return;
+
         } else {
             // !if end-client form local strategy then just update the password (or) end-client from 3rd party
             // !vendor then create the local.email in the above if statement, later create a new local.password field
 
             // const hashPassword = await getEncryptedPassword(password);
-
             // userObj.local.password = hashPassword;
+
+            // !hashing of above password is not required, since before save() we already did hashing of password
             userObj.local.password = password;
             await userObj.save();
         }
